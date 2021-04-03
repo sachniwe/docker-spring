@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head th:replace="/fragments/head"></head>
+
+<body>
+
+<nav th:replace="/fragments/nav :: nav-admin"></nav>
+
+<div class="container">
+
+    <h1 class="display-2" th:text="'Edit ' + ( ${title} ?: ${movie.title} )"></h1>
+    <a href="/movies" class="btn btn-primary mb-5">Back to movies</a>
+    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+    <form method="post" th:object="${movie}" th:action="@{/movies/edit}" enctype="multipart/form-data">
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+            There are errors
+        </div>
+
+        <div class="form-group">
+            <label for="">Title:</label>
+            <input type="text" class="form-control" th:field="*{title}" placeholder="Title">
+            <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+        </div>
+        <div class="form-group">
+            <label for="">Original Title:</label>
+            <input type="text" class="form-control" th:field="*{original_title}" placeholder="Original Title">
+            <span class="error" th:if="${#fields.hasErrors('original_title')}" th:errors="*{original_title}"></span>
+        </div>
+        <div class="form-group">
+            <label for="">Description:</label>
+            <input type="text" class="form-control" th:field="*{description}" placeholder="Description">
+            <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+        </div>
+        <div class="form-group">
+            <label for="">Released Date:</label>
+            <input type="text" class="form-control" th:field="*{released}" placeholder="Released Date">
+            <span class="error" th:if="${#fields.hasErrors('released')}" th:errors="*{released}"></span>
+        </div>
+        <div class="form-group">
+            <label for="">Studio:</label>
+            <input type="text" class="form-control" th:field="*{studio}" placeholder="Studio">
+            <span class="error" th:if="${#fields.hasErrors('studio')}" th:errors="*{studio}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="">Image:</label>
+            <input type="file" class="form-control" th:name="file">
+            <img class="mt-2" src="#" alt="" id="imgPreview1">
+        </div>
+
+        <div class="form-group">
+            <label for="">Tag:</label>
+            <input type="text" class="form-control" th:field="*{tag}" placeholder="Tag">
+            <span class="error" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></span>
+        </div>
+        <div class="form-group">
+            <label for="">Genre:</label>
+            <input type="text" class="form-control" th:field="*{genre}" placeholder="Genre">
+            <span class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
+        </div>
+
+        <input type="hidden" th:field="*{id}" th:value="${movie.id}">
+
+        <button class="btn btn-danger mb-5">Edit</button>
+
+    </form>
+
+
+
+</div>
+
+<div th:replace="/fragments/footer"></div>
+
+<script>
+             $(function () {
+
+                $("#file").change(function () {
+                    readURL(this, '1');
+                });
+
+                });
+ </script>
+
+</body>
+
+</html>

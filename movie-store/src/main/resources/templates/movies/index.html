@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head th:replace="/fragments/head"></head>
+
+<body>
+    <nav th:replace="/fragments/nav :: nav-admin"></nav>
+
+<div class="container">
+
+    <h5 class="display-2">Movies</h5>
+    <a href="/movies/add" class="btn btn-primary mb-5">Add new</a>
+
+    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+    <div th:if="${!movies.empty}">
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Released date</th>
+                <th>Studio</th>
+                <th>Genre</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            <tr th:each="movie: ${movies}">
+                <td>
+                    <img style="width: 150px;" th:src="@{'/media/' + ${movie.image}}">
+
+                </td>
+                <td th:text="${movie.title}"></td>
+                <td th:text="${movie.description}"></td>
+                <td th:text="${movie.released}"></td>
+                <td th:text="${movie.studio}"></td>
+
+                <td th:text="${movie.genre}"></td>
+                <td><a th:href="@{'/movies/edit/' + ${movie.id}}">Edit</td>
+                <td><a th:href="@{'/movies/delete/' + ${movie.id}}" class="confirmDeletion">Delete</td>
+
+            </tr>
+        </table>
+    </div>
+
+
+
+
+    <div th:unless="${!movies.empty}">
+        <h4 class="display-4">There are no products at the moment</h4>
+    </div>
+
+</div>
+
+<div th:replace="/fragments/footer"></div>
+
+</body>
+
+</html>
