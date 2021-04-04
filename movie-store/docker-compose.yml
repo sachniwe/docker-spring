@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  dockermysql:
+    image: sachiniw/sachini-mysql:latest
+    ports:
+      - 3307:3306
+    networks:
+      - my_mysql_net
+
+  app:
+    image: sachiniw/movie-app:latest
+    ports:
+      - 8089:8080
+    depends_on:
+      - dockermysql
+    networks:
+      - my_mysql_net
+
+networks:
+  my_mysql_net:
+    driver: bridge

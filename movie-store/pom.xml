@@ -70,6 +70,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<finalName>movie-app</finalName>
 				</configuration>
 			</plugin>
 		</plugins>
