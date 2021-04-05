@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 
-<head th:replace="/fragments/head"></head>
+<head th:replace="movies/head"></head>
 
 <body>
-    <nav th:replace="/fragments/nav :: nav-admin"></nav>
+    <nav th:replace="movies/nav :: nav-admin"></nav>
 
 <div class="container">
 
@@ -16,7 +16,6 @@
     <div th:if="${!movies.empty}">
         <table class="table">
             <tr>
-                <th></th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Released date</th>
@@ -27,10 +26,6 @@
 
             </tr>
             <tr th:each="movie: ${movies}">
-                <td>
-                    <img style="width: 150px;" th:src="@{'/media/' + ${movie.image}}">
-
-                </td>
                 <td th:text="${movie.title}"></td>
                 <td th:text="${movie.description}"></td>
                 <td th:text="${movie.released}"></td>
@@ -53,7 +48,7 @@
 
 </div>
 
-<div th:replace="/fragments/footer"></div>
+<div th:replace="movies/footer"></div>
 
 </body>
 

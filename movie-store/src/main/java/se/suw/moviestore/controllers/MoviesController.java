@@ -38,7 +38,7 @@ public class MoviesController {
     }
 
     @PostMapping("/add")
-    public String add(@Valid Movie movie, BindingResult bindingResult, MultipartFile file,
+    public String add(@Valid Movie movie, BindingResult bindingResult,
                       RedirectAttributes redirectAttributes,
                       Model model) throws IOException {
 
@@ -46,26 +46,11 @@ public class MoviesController {
             return "movies/add";
         }
 
-        boolean fileOK = false;
-        byte[] bytes = file.getBytes();
-        String filename = file.getOriginalFilename();
-        Path path = Paths.get("src/main/resources/static/media/" + filename);
 
-        if (filename.endsWith("jpg") || filename.endsWith("png") ) {
-            fileOK = true;
-        }
-        if (! fileOK ) {
-            redirectAttributes.addFlashAttribute("message", "Image must be a jpg or a png");
-            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-            redirectAttributes.addFlashAttribute("movie", movie);
-        }
+        movieRepository.save(movie);
 
         redirectAttributes.addFlashAttribute("message", "Page added");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-
-        movie.setImage(filename);
-        movieRepository.save(movie);
-        Files.write(path, bytes);
 
         return "redirect:/movies/add";
     }
@@ -74,12 +59,12 @@ public class MoviesController {
     public String edit(@PathVariable int id, Model model) {
         Movie movie = movieRepository.getOne(id);
         model.addAttribute("movie", movie);
-        return "/movies/edit";
+        return "movies/edit";
 
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid Movie movie, BindingResult bindingResult, MultipartFile file,
+    public String edit(@Valid Movie movie, BindingResult bindingResult,
                        RedirectAttributes redirectAttributes,
                        Model model) throws IOException {
 
@@ -87,31 +72,6 @@ public class MoviesController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("title",movieCurrent.getTitle());
             return "movies/edit";
-        }
-        boolean fileOK = false;
-        byte[] bytes = file.getBytes();
-        String filename = file.getOriginalFilename();
-        Path path = Paths.get("src/main/resources/static/media/" + filename);
-
-        if (!file.isEmpty()) {
-            if (filename.endsWith("jpg") || filename.endsWith("png") ) {
-                fileOK = true;
-            }
-        } else {
-            fileOK = true;
-        }
-      if (! fileOK ) {
-            redirectAttributes.addFlashAttribute("message", "Image must be a jpg or a png");
-            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-            redirectAttributes.addFlashAttribute("movie", movie);
-        }
-        if (!file.isEmpty()) {
-            Path path2 = Paths.get("src/main/resources/static/media/" + movieCurrent.getImage());
-            Files.delete(path2);
-            movie.setImage(filename);
-            Files.write(path, bytes);
-        } else {
-            movie.setImage(movieCurrent.getImage());
         }
 
         redirectAttributes.addFlashAttribute("message", "Movie edited");

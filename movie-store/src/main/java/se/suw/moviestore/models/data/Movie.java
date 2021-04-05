@@ -17,7 +17,6 @@ public class Movie {
     private String description;
     private String released;
     private String studio;
-    private String image;
     private String tag;
     private String genre;
 
