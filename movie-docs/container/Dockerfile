@@ -21,10 +21,6 @@ ENV ASCIIDOCTOR_VERSION=${asciidoctor_version} \
   ASCIIDOCTOR_BIBTEX_VERSION=${asciidoctor_bibtex_version}
 
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Haskell build for: erd
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 FROM base AS build-haskell
 RUN echo "building Haskell dependencies" # keep here to help --cache-from along
 
@@ -45,18 +41,11 @@ RUN apk add --no-cache \
 RUN cabal v2-update \
  && cabal v2-install erd
 
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Final image
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 FROM base AS main
 RUN echo "building main image" # keep here to help --cache-from along
 
-LABEL MAINTAINERS="Guillaume Scheibel <guillaume.scheibel@gmail.com>, Damien DUPORTAL <damien.duportal@gmail.com>"
+LABEL MAINTAINERS="Sachini"
 
-# Installing package required for the runtime of
-# any of the asciidoctor-* functionnalities
 RUN apk add --no-cache \
     bash \
     curl \
@@ -81,8 +70,6 @@ RUN apk add --no-cache \
     unzip \
     which
 
-# Installing Ruby Gems needed in the image
-# including asciidoctor itself
 RUN apk add --no-cache --virtual .rubymakedepends \
     build-base \
     libxml2-dev \
@@ -109,8 +96,6 @@ RUN apk add --no-cache --virtual .rubymakedepends \
     "asciidoctor-bibtex:${ASCIIDOCTOR_BIBTEX_VERSION}" \
   && apk del -r --no-cache .rubymakedepends
 
-# Installing Python dependencies for additional
-# functionnalities as diagrams or syntax highligthing
 RUN apk add --no-cache --virtual .pythonmakedepends \
     build-base \
     python3-dev \
