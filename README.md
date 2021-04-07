@@ -1,11 +1,11 @@
-##Movie-App user document
+## Movie-App user document
 
 
 To start application stack execute following command
 docker-compose up --build -d
 
 
-###Database 
+### Database 
 (docker image name: sachiniw/movie-db)
 Application required pre-defined table structure therefore custom mysql docker 
 image has been created with based on ubuntu official docker image
@@ -15,7 +15,7 @@ Coulumns:
 	id, title, original_title, description, studio, tag, genre
 	
 	
-###Spring-boot application(docker image name: sachiniw/movie-app)
+### Spring-boot application(docker image name: sachiniw/movie-app)
 
 |===
 |URL |Description
@@ -33,7 +33,7 @@ Application configured to run on 172.17.0.2 and uses default docker local bridge
 If require change URI host's IP as prefer. 
 
 
-###Spring-boot documents(docker image name: sachiniw/movie-doc)
+### Spring-boot documents(docker image name: sachiniw/movie-doc)
 docker run -it -v <your dir>:/documents/ sachiniw/movie-doc
 
 
